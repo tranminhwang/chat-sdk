@@ -1,0 +1,11 @@
+{
+  "minify": true,
+  "jsc": {
+    "minify": {
+      "mangle": true
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}

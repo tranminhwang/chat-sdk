@@ -27,13 +27,13 @@
 
   <script async>
     const script = document.createElement('script');
-    script.src = 'http://localhost:3000/sdk.js';
+    script.src = 'http://localhost:3000/bundle.min.js';
     script.onload = function () {
       const options = {
         customStyle: {
-          borderRadius: '0.5rem',
           right: '30px',
           bottom: '30px',
+          height: "590px"
         }
       }
       window.initChat(options)

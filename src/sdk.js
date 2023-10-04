@@ -21,32 +21,6 @@ function mergeOptions(options = DEFAULT_OPTIONS) {
   };
 }
 
-function initChat(options) {
-  options = mergeOptions(options);
-
-  const root = createRootElement();
-  const style = createStyle();
-  const iframe = createIframe(options);
-
-  document.head.appendChild(style);
-  root.appendChild(iframe);
-
-  root.addEventListener("click", () => {
-    iframe.className = "pito_chat_bounce_in";
-    iframe.style.display = "block";
-  });
-
-  document.getElementById(options.container).appendChild(root);
-  window.addEventListener("message", (event) => {
-    if (event.data === "closeChat") {
-      iframe.className = "pito_chat_bounce_out";
-      setTimeout(() => {
-        iframe.style.display = "none";
-      }, 100);
-    }
-  });
-}
-
 function createIframe({ customStyle }) {
   const { width, height, zIndex, right, bottom, borderRadius } = customStyle;
 
@@ -114,14 +88,14 @@ function createStyle() {
       }
     }
 
-    .pito_chat_bounce_in {
+    .chat_bounce_in {
       animation-duration: 300ms;
       animation-name: bounce_in;
       transition-timing-function: ease-in;
     }
 
 
-    .pito_chat_bounce_out {
+    .chat_bounce_out {
       animation-duration: 300ms;
       animation-name: bounce_out;
       transition-timing-function: ease-in;
@@ -129,3 +103,35 @@ function createStyle() {
 `;
   return style;
 }
+
+function initChat(options) {
+  options = mergeOptions(options);
+
+  const root = createRootElement();
+  const style = createStyle();
+  const iframe = createIframe(options);
+
+  document.head.appendChild(style);
+  root.appendChild(iframe);
+
+  root.addEventListener("click", () => {
+    iframe.className = "chat_bounce_in";
+    iframe.style.display = "block";
+  });
+
+  document.getElementById(options.container).appendChild(root);
+
+  window.addEventListener("message", (event) => {
+    if (event.data === "closeChat") {
+      iframe.className = "chat_bounce_out";
+      setTimeout(() => {
+        iframe.style.display = "none";
+        iframe.style.width = options.customStyle.width;
+      }, 200);
+    } else if (event.data === "openConversation") {
+      iframe.style.width = "720px";
+    }
+  });
+}
+
+window.initChat = initChat;
