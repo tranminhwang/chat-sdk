@@ -34,6 +34,7 @@ function createIframe({ customStyle }) {
   iframe.src = "http://localhost:3000";
 
   iframe.style.border = "0px";
+  iframe.style.background = "white";
   iframe.style.position = "fixed";
   iframe.style.boxShadow = "0 4px 12px 0 rgba(0, 0, 0, .15)";
   iframe.style.overflow = "hidden";

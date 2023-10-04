@@ -1,52 +1,34 @@
 "use client";
 
-import React, { useEffect } from "react";
+import Image from "next/image";
+import { useAuth } from "@/providers/auth-provider";
 import { changeIframeLayout } from "@/utils/iframe";
-export default function Home() {
-  const [isFullScreen, setIsFullScreen] = React.useState(false);
-  const [credentials, setCredentials] = React.useState<any>();
+import Icons from "@/components/ui/icons";
 
-  useEffect(() => {
-    window.addEventListener(
-      "message",
-      (event) => {
-        if (event.origin !== "http://localhost:3000") return;
-        setCredentials(event.data);
-      },
-      false
-    );
-  }, []);
+export default function Home() {
+  const { userInfo } = useAuth();
 
   return (
-    <main className="flex flex-col items-center bg-white p-4">
-      {/* <div className="flex gap-4">
+    <main className="flex flex-col bg-white">
+      <header className="flex justify-between items-center px-4 py-3 border-b">
+        <div className="flex gap-2 items-center">
+          <div className="w-10 h-10 bg-gray-200 rounded-full relative overflow-hidden">
+            <Image
+              className="absolute w-full h-full object-cover"
+              src="https://avatars.githubusercontent.com/u/56917374?v=4"
+              alt={userInfo.name}
+              fill
+            />
+          </div>
+          <h4 className="text-md font-semibold">{userInfo.name}</h4>
+        </div>
         <div
-          className="text-white bg-black font-bold cursor-pointer px-4 py-2 rounded-xl"
+          className="w-6 h-6 cursor-pointer"
           onClick={changeIframeLayout.closeChat}
         >
-          Close
+          {<Icons.close />}
         </div>
-        <div
-          className="text-white bg-black font-bold cursor-pointer px-4 py-2 rounded-xl"
-          onClick={changeIframeLayout.openConversation}
-        >
-          Conversation
-        </div>
-        <div
-          className="text-white bg-black font-bold cursor-pointer px-4 py-2 rounded-xl"
-          onClick={() => {
-            !isFullScreen
-              ? changeIframeLayout.expandFullScreen()
-              : changeIframeLayout.collapseFullScreen();
-            setIsFullScreen(!isFullScreen);
-          }}
-        >
-          Expand
-        </div>
-      </div>
-      <div className="mt-4 text-black">
-        <h4>{credentials && JSON.stringify(credentials, null, 2)}</h4>
-      </div> */}
+      </header>
     </main>
   );
 }
