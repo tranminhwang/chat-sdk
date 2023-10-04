@@ -8,6 +8,12 @@ const DEFAULT_OPTIONS = {
     bottom: "16px",
     borderRadius: "1rem",
   },
+  credentials: {
+    bizId: "5f9b2b9b9c6d2a0017a1e2a5",
+    userId: "6d2a0017a1e2a65f9b2b9b9c",
+    accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+    refreshToken: "UzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJI",
+  },
 };
 
 function mergeOptions(options = DEFAULT_OPTIONS) {
@@ -104,12 +110,61 @@ function createStyle() {
   return style;
 }
 
+function listenerEventChangeLayout(event, iframe, options) {
+  switch (event.data) {
+    case "closeChat": {
+      iframe.className = "chat_bounce_out";
+      setTimeout(() => {
+        iframe.style.display = "none";
+        iframe.style.width = options.customStyle.width;
+        iframe.style.height = options.customStyle.height;
+        iframe.style.right = options.customStyle.right;
+        iframe.style.bottom = options.customStyle.bottom;
+        iframe.style.borderRadius = options.customStyle.borderRadius;
+      }, 200);
+      break;
+    }
+    case "openConversation": {
+      iframe.style.width = "720px";
+      break;
+    }
+    case "expandFullScreen": {
+      const windowWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      const windowHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+
+      iframe.style.width = `${windowWidth}px`;
+      iframe.style.height = `${windowHeight}px`;
+      iframe.style.bottom = "0px";
+      iframe.style.right = "0px";
+      iframe.style.borderRadius = "0px";
+      break;
+    }
+    case "collapseFullScreen": {
+      iframe.style.width = "720px";
+      iframe.style.height = options.customStyle.height;
+      iframe.style.right = options.customStyle.right;
+      iframe.style.bottom = options.customStyle.bottom;
+      iframe.style.borderRadius = options.customStyle.borderRadius;
+      break;
+    }
+  }
+}
+
 function initChat(options) {
   options = mergeOptions(options);
 
   const root = createRootElement();
   const style = createStyle();
   const iframe = createIframe(options);
+
+  iframe.onload = () =>
+    iframe.contentWindow.postMessage(options.credentials, "*");
 
   document.head.appendChild(style);
   root.appendChild(iframe);
@@ -122,15 +177,7 @@ function initChat(options) {
   document.getElementById(options.container).appendChild(root);
 
   window.addEventListener("message", (event) => {
-    if (event.data === "closeChat") {
-      iframe.className = "chat_bounce_out";
-      setTimeout(() => {
-        iframe.style.display = "none";
-        iframe.style.width = options.customStyle.width;
-      }, 200);
-    } else if (event.data === "openConversation") {
-      iframe.style.width = "720px";
-    }
+    listenerEventChangeLayout(event, iframe, options);
   });
 }
 

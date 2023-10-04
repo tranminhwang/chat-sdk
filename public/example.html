@@ -30,10 +30,12 @@
     script.src = 'http://localhost:3000/bundle.min.js';
     script.onload = function () {
       const options = {
+        container: "display-chat",
         customStyle: {
           right: '30px',
           bottom: '30px',
-          height: "590px"
+          height: "590px",
+          zIndex: 9999999,
         }
       }
       window.initChat(options)
@@ -43,7 +45,7 @@
 </head>
 
 <body>
-  <h1>Example</h1>
+  <h1 style="text-align: center;">Example</h1>
   <div id="display-chat">
 </body>
 

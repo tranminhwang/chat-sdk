@@ -1,5 +1,5 @@
 {
-  "name": "pito-chat",
+  "name": "chat-sdk",
   "version": "0.1.0",
   "private": true,
   "scripts": {
