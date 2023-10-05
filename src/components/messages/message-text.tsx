@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "@/components/ui/avatar";
+import Icons from "../ui/icons";
 
 const MessageText = () => {
   const isMe = Math.random() > 0.5;
@@ -7,8 +8,8 @@ const MessageText = () => {
   return (
     <div>
       {isMe ? (
-        <div className="flex justify-end pr-6">
-          <div>
+        <div className="flex flex-col items-end">
+          <div className="pr-5 flex flex-col">
             <div className="max-w-[265px] px-3 py-2 rounded-lg bg-[#0b74e5]">
               <p className="text-sm text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
@@ -17,7 +18,13 @@ const MessageText = () => {
                 est! Asperiores, qui. Mollitia.
               </p>
             </div>
-            <p className="text-[10px] text-right text-gray-500 mt-1">16:11</p>
+            <div className="flex justify-end relative mt-1">
+              <span className="text-[10px] text-right text-gray-500">
+                16:11
+              </span>
+              {<Icons.seen className="w-3 absolute -right-5 bottom-[10%]" />}
+              {/* {<Icons.send className="w-3 absolute -right-5 bottom-[10%]" />} */}
+            </div>
           </div>
         </div>
       ) : (
