@@ -3,7 +3,7 @@ import { stringToAvatarName, stringToHslColor } from "@/utils/string";
 
 interface AvatarProps {
   name: string;
-  size: 56 | 40;
+  size: 56 | 40 | 36;
   src?: string;
   priority?: boolean;
 }
