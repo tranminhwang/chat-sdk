@@ -57,7 +57,7 @@ export default function Home() {
               <div
                 key={idx}
                 className={`w-full ${
-                  activeChannel === channelId && "bg-[#F5F5FA]"
+                  activeChannel === channelId && "bg-[#CEE5FD]"
                 }`}
                 onClick={() => onChannelClick(channelId)}
               >

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "./ui/skeleton";
+import Icons from "./ui/icons";
 
 interface MessagesListProps {
   channelId: string;
@@ -37,26 +37,26 @@ const MessagesList = ({ channelId }: MessagesListProps) => {
     })();
   }, [channelId]);
 
+  if (fetching) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <div className="flex flex-col gap-1 items-center">
+          <Icons.spinner className="h-5 w-5 text-gray-600" />
+          <p className="text-sm text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-y-scroll no-scrollbar flex flex-col gap-2 py-4">
-      {fetching ? (
-        mockMessages.map((_, idx) => (
-          <div key={idx} className="px-3 flex gap-1 items-center">
-            <Skeleton className="h-6 w-6 rounded-full" />
-            <Skeleton className={`h-6 w-40 rounded-lg`} />
-          </div>
-        ))
-      ) : messages?.length ? (
-        messages.map(({ message, id }) => (
-          <div key={id} className="px-3">
-            {message}
-          </div>
-        ))
-      ) : (
-        <></>
-      )}
+      {messages?.map(({ message, id }) => (
+        <div key={id} className="px-3">
+          {message}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default MessagesList;
+export default React.memo(MessagesList);

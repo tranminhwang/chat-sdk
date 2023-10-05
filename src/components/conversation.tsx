@@ -2,7 +2,6 @@ import React from "react";
 import Avatar from "./ui/avatar";
 
 const Conversation = () => {
-  console.log("render conversation");
   return (
     <div className="px-3 py-[6px] hover:bg-[#F5F5FA] cursor-pointer">
       <div className="flex">
