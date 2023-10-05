@@ -1,10 +1,11 @@
 "use client";
 
 import React, { Fragment, useEffect, useState } from "react";
-import Avatar from "./ui/avatar";
-import { Skeleton } from "./ui/skeleton";
-import MessagesList from "./messages-list";
 import { isEmpty } from "lodash";
+
+import Avatar from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import MessagesList from "@/components/messages/messages-list";
 
 interface MessagesChannelProps {
   channel: any;

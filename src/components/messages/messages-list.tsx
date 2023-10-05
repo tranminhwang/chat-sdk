@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Icons from "./ui/icons";
+import Icons from "@/components/ui/icons";
+import MessageText from "./message-text";
 
 interface MessagesListProps {
   channelId: string;
@@ -52,7 +53,7 @@ const MessagesList = ({ channelId }: MessagesListProps) => {
     <div className="overflow-y-scroll no-scrollbar flex flex-col gap-2 py-4">
       {messages?.map(({ message, id }) => (
         <div key={id} className="px-3">
-          {message}
+          <MessageText />
         </div>
       ))}
     </div>

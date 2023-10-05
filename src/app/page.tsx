@@ -6,7 +6,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isEmpty } from "lodash";
 import { changeIframeLayout } from "@/utils/iframe";
 import Header from "@/components/header";
-const MessagesChannel = dynamic(() => import("@/components/message-channel"));
+const MessagesChannel = dynamic(
+  () => import("@/components/messages/message-channel")
+);
 const Conversation = dynamic(() => import("@/components/conversation"));
 
 export default function Home() {
@@ -45,7 +47,7 @@ export default function Home() {
       <Header />
       <div className="flex-1 flex w-full overflow-y-scroll no-scrollbar">
         <div
-          className="flex flex-col gap-2 overflow-y-scroll no-scrollbar w-max"
+          className="flex flex-col gap-1 overflow-y-scroll no-scrollbar w-max"
           style={{
             minWidth: activeChannel ? "340px" : "375px",
             transition: "min-width 0.15s ease-in-out",
