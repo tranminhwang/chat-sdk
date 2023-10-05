@@ -111,8 +111,8 @@ function createStyle() {
   return style;
 }
 
-function listenerEventChangeLayout(event, iframe, options) {
-  switch (event.data) {
+function listenerEventsChangeLayout(message, iframe, options) {
+  switch (message) {
     case "closeChat": {
       iframe.className = "chat_bounce_out";
       setTimeout(() => {
@@ -157,6 +157,18 @@ function listenerEventChangeLayout(event, iframe, options) {
   }
 }
 
+function listenerEventsAuthentication(message, payload, iframe, options) {
+  switch (message) {
+    case "unauthorized": {
+      iframe.contentWindow.postMessage(
+        options.credentials,
+        "http://localhost:3000"
+      );
+      break;
+    }
+  }
+}
+
 function initChat(options) {
   options = mergeOptions(options);
 
@@ -165,7 +177,10 @@ function initChat(options) {
   const iframe = createIframe(options);
 
   iframe.onload = () =>
-    iframe.contentWindow.postMessage(options.credentials, "*");
+    iframe.contentWindow.postMessage(
+      options.credentials,
+      "http://localhost:3000"
+    );
 
   document.head.appendChild(style);
   root.appendChild(iframe);
@@ -178,7 +193,21 @@ function initChat(options) {
   document.getElementById(options.container).appendChild(root);
 
   window.addEventListener("message", (event) => {
-    listenerEventChangeLayout(event, iframe, options);
+    try {
+      const { type, message, payload } = event.data;
+      switch (type) {
+        case "changeLayout": {
+          listenerEventsChangeLayout(message, iframe, options);
+          break;
+        }
+        case "authentication": {
+          listenerEventsAuthentication(message, payload, iframe, options);
+          break;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   });
 }
 

@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import LoadingBeforeFetchCredentails from "@/components/loading-before-fetch";
 import UnauthorizedPage from "@/components/unauthorized-page";
 import { getUserInfo } from "@/services/user";
@@ -27,27 +27,37 @@ export default function RootLayout({
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
 
-  const handleMessages = async (event: any) => {
+  const handleMessages = useCallback(async (event: any) => {
     try {
-      if (event.origin !== process.env.CLIENT_HOST) return;
-      const { accessToken, refreshToken } = event.data as Credentials;
-      const user = await getUserInfo(accessToken, refreshToken);
-
-      setUserInfo(user);
-      setIsAuthorized(true);
+      if (event.origin === process.env.CLIENT_HOST) {
+        const { accessToken, refreshToken } = event.data as Credentials;
+        const user = await getUserInfo(accessToken, refreshToken);
+        setUserInfo(user);
+        setIsAuthorized(true);
+        window.removeEventListener("message", handleMessages);
+      } else {
+        window.parent.postMessage(
+          {
+            type: "authentication",
+            message: "unauthorized",
+            payload: null,
+          },
+          "*"
+        );
+      }
     } catch (err) {
       setIsAuthorized(false);
     } finally {
       setFetching(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    window.addEventListener("message", handleMessages, false);
+    window.addEventListener("message", handleMessages);
     return () => {
       window.removeEventListener("message", handleMessages);
     };
-  }, []);
+  }, [handleMessages]);
 
   return (
     <html lang="en">

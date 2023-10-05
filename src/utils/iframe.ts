@@ -1,9 +1,40 @@
 export const changeIframeLayout = Object.freeze({
-  closeChat: () => window.parent.postMessage("closeChat", "*"),
-  openConversation: () => window.parent.postMessage("openConversation", "*"),
-  expandFullScreen: () => window.parent.postMessage("expandFullScreen", "*"),
+  closeChat: () =>
+    window.parent.postMessage(
+      {
+        type: "changeLayout",
+        message: "closeChat",
+        payload: null,
+      },
+      "*"
+    ),
+  openConversation: () =>
+    window.parent.postMessage(
+      {
+        type: "changeLayout",
+        message: "openConversation",
+        payload: null,
+      },
+      "*"
+    ),
+  expandFullScreen: () =>
+    window.parent.postMessage(
+      {
+        type: "changeLayout",
+        message: "expandFullScreen",
+        payload: null,
+      },
+      "*"
+    ),
   collapseFullScreen: () =>
-    window.parent.postMessage("collapseFullScreen", "*"),
+    window.parent.postMessage(
+      {
+        type: "changeLayout",
+        message: "collapseFullScreen",
+        payload: null,
+      },
+      "*"
+    ),
 });
 
 export const getDataFromIframe = Object.freeze({
