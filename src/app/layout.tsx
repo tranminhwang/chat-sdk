@@ -8,6 +8,7 @@ import UnauthorizedPage from "@/components/unauthorized-page";
 import { getUserInfo } from "@/services/user";
 import AuthProvider from "@/providers/auth-provider";
 import { IUserInfo } from "@/interface/user";
+import LayoutWrapper from "@/components/layout-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -69,7 +70,7 @@ export default function RootLayout({
         {!fetching && !isAuthorized && <UnauthorizedPage />}
         {!fetching && isAuthorized && (
           <AuthProvider userInfo={userInfo as IUserInfo}>
-            {children}
+            <LayoutWrapper>{children}</LayoutWrapper>
           </AuthProvider>
         )}
       </body>
