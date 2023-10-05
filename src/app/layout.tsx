@@ -8,9 +8,14 @@ import UnauthorizedPage from "@/components/unauthorized-page";
 import { getUserInfo } from "@/services/user";
 import AuthProvider from "@/providers/auth-provider";
 import { IUserInfo } from "@/interface/user";
-import LayoutWrapper from "@/components/layout-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const messageUnauthorized = {
+  type: "authentication",
+  message: "unauthorized",
+  payload: null,
+};
 
 interface Credentials {
   bizId: string;
@@ -37,17 +42,8 @@ export default function RootLayout({
         setIsAuthorized(true);
         window.removeEventListener("message", handleMessages);
       } else {
-        window.parent.postMessage(
-          {
-            type: "authentication",
-            message: "unauthorized",
-            payload: null,
-          },
-          "*"
-        );
+        window.parent.postMessage(messageUnauthorized, "*");
       }
-    } catch (err) {
-      setIsAuthorized(false);
     } finally {
       setFetching(false);
     }
@@ -72,7 +68,7 @@ export default function RootLayout({
         {!fetching && !isAuthorized && <UnauthorizedPage />}
         {!fetching && isAuthorized && (
           <AuthProvider userInfo={userInfo as IUserInfo}>
-            <LayoutWrapper>{children}</LayoutWrapper>
+            {children}
           </AuthProvider>
         )}
       </body>

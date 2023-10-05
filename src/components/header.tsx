@@ -6,12 +6,14 @@ import { useAuth } from "@/providers/auth-provider";
 import Icons from "./ui/icons";
 
 import { changeIframeLayout } from "@/utils/iframe";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Header = () => {
-  const { userInfo } = useAuth();
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const pathName = usePathname();
+  const router = useRouter();
+
+  const { userInfo } = useAuth();
   const [isExpand, setIsExpand] = useState(false);
 
   return (
@@ -28,7 +30,7 @@ const Header = () => {
         </h4>
       </div>
       <div className="flex gap-2 items-center">
-        {pathName.includes("/channel") && (
+        {searchParams.get("channelId") && (
           <div
             className="h-5 w-5 cursor-pointer"
             onClick={() => {
@@ -45,8 +47,8 @@ const Header = () => {
           className="w-6 h-6 cursor-pointer"
           onClick={() => {
             changeIframeLayout.closeChat();
+            router.push(pathName);
             setIsExpand(false);
-            router.push("/");
           }}
         >
           {<Icons.close />}
@@ -56,4 +58,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
