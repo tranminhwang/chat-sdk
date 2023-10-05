@@ -1,12 +1,13 @@
 "use client";
 
-import Conversation from "@/components/conversation";
-import Header from "@/components/header";
 import { useCallback, useEffect, useState } from "react";
-import { changeIframeLayout } from "@/utils/iframe";
-import MessagesChannel from "@/components/message-channel";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isEmpty } from "lodash";
+import { changeIframeLayout } from "@/utils/iframe";
+import Header from "@/components/header";
+const MessagesChannel = dynamic(() => import("@/components/message-channel"));
+const Conversation = dynamic(() => import("@/components/conversation"));
 
 export default function Home() {
   const router = useRouter();

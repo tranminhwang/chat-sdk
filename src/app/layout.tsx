@@ -3,11 +3,20 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { useCallback, useEffect, useState } from "react";
-import LoadingBeforeFetchCredentails from "@/components/loading-before-fetch";
-import UnauthorizedPage from "@/components/unauthorized-page";
+import dynamic from "next/dynamic";
+
 import { getUserInfo } from "@/services/user";
 import AuthProvider from "@/providers/auth-provider";
 import { IUserInfo } from "@/interface/user";
+
+const LoadingBeforeFetchCredentails = dynamic(
+  () => import("@/components/loading-before-fetch"),
+  { ssr: true }
+);
+const UnauthorizedPage = dynamic(
+  () => import("@/components/unauthorized-page"),
+  { ssr: false }
+);
 
 const inter = Inter({ subsets: ["latin"] });
 
