@@ -18,6 +18,8 @@ export default function Avatar({ name, size, src, priority }: AvatarProps) {
         }),
         width: size,
         height: size,
+        minWidth: size,
+        minHeight: size,
       }}
     >
       {src && (
