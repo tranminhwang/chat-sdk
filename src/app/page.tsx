@@ -50,7 +50,7 @@ export default function Home() {
           className="flex flex-col gap-1 overflow-y-scroll no-scrollbar w-max"
           style={{
             minWidth: activeChannel ? "340px" : "375px",
-            transition: "min-width 0.15s ease-in-out",
+            transition: "min-width 0.2s ease-in-out",
           }}
         >
           {conversations.map((_, idx) => {
@@ -68,7 +68,7 @@ export default function Home() {
             );
           })}
         </div>
-        {!isEmpty(activeChannel) && <MessagesChannel channel={activeChannel} />}
+        <MessagesChannel channel={activeChannel} />
       </div>
     </div>
   );

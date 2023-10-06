@@ -1,5 +1,6 @@
 import React from "react";
 import Avatar from "./ui/avatar";
+import TimeFormat from "./time-format";
 
 const Conversation = () => {
   return (
@@ -10,15 +11,15 @@ const Conversation = () => {
           size={56}
           name={"Minh Quang"}
         />
-        <div className="mx-2 flex flex-col justify-center">
+        <div className="px-2 flex flex-col">
           <div className="flex gap-2">
             <h3 className="font-medium line-clamp-1">Tran Minh Quang</h3>
           </div>
-          <p className="text-[12px] text-gray-500 line-clamp-1">
+          <p className="text-[12px] text-gray-500 line-clamp-2">
             Lorem ipsum dolor sit amet
           </p>
         </div>
-        <p className="text-[12px] text-gray-500 mr-0 ml-auto">27/09</p>
+        <TimeFormat time={1696571565000} />
       </div>
     </div>
   );
